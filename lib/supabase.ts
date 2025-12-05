@@ -1,9 +1,22 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Laufzeit-Check, falls du die ENV-Variablen mal vergessen solltest
+if (!supabaseUrl) {
+  throw new Error("NEXT_PUBLIC_SUPABASE_URL is not set");
+}
+if (!supabaseAnonKey) {
+  throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY is not set");
+}
+
+// Hier sagen wir TypeScript explizit: das sind Strings
+export const supabase = createClient(
+  supabaseUrl as string,
+  supabaseAnonKey as string
+);
+
 
 export type Product = {
   id: string;
